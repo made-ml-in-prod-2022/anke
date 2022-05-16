@@ -21,4 +21,4 @@ jobs:
           pip install -r requirements.txt
       - name: test with pytest
         run: |
-          python -m pytest --cov data/ --cov models/  tests/data_tests.py tests/model_tests.py
+          python -m pytest --cov=data/ --cov=models/  tests/data_tests.py tests/model_tests.py
