@@ -5,7 +5,6 @@
 ├─📁 configs/  &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;               # yaml конфиги для запуска  
 │ ├─📄 config.yaml  
 │ └─📄 config_2.yaml  
-├─📄 criterions.txt  &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;          # самооценка  
 ├─📁 data/     &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;  # оригинальный датасет, предобработка и код для подражания  
 │ ├─📄 Data.py  
 │ ├─📄 fake_data.py  
