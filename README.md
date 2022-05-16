@@ -46,7 +46,7 @@
 `model_params.model_type=<RandomForestClassifier, DecisionTreeClassifier, LogisticRegression>` - choose model type  
 `model_params.preds_path=<str>` - specify predictions path  
 `model_params.eval_path=<str>` - specify metric results path  
-`prepro_params.transformer_preprocess=true` - preprocess with ColumnTransformer
+`prepro_params.transformer_preprocess=true` - preprocess with ColumnTransformer  
 `prepro_params.pca=true model_params.pca_n_comp=<int>` - apply pca with number of components = pca_n_comp, default=10  
 
 **run tests:**  
