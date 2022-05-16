@@ -10,8 +10,7 @@ COLUMNS = ['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach',
                    'exang', 'oldpeak', 'slope', 'ca', 'thal', 'condition']
 
 NUMERICAL = ['age', 'trestbps', 'chol', 'thalach', 'oldpeak', 'ca']
-CATEGORICAL = ['cp', 'ca', 'restecg', 'slope', 'thal', 'sex', 'fbs', 'exang', 'condition',
-               'age', 'trestbps', 'chol', 'thalach', 'oldpeak', 'ca']
+CATEGORICAL = ['cp',  'restecg', 'slope', 'thal', 'sex', 'fbs', 'exang', 'condition']
 
 ORIG_DATA = pd.read_csv(ORIGINAL_DATA_PATH)
 
