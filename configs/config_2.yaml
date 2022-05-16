@@ -1,0 +1,49 @@
+# Preprocess with Column Transformer and apply PCA, default model is LogisticRegression
+input_dataset_path: "data/raw/heart_cleveland_upload.csv"
+numpy_random_seed: 1234
+
+split_params:
+  split: true
+  test_size: 0.25
+  random_state: 1234
+  shuffle: false
+  target_column: condition
+
+prepro_params:
+  transformer_preprocess: true
+
+  pca: true
+  pca_n_comp: 11
+
+  feature_names: [ "age", 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach',
+                   'exang', 'oldpeak', 'slope', 'ca', 'thal', 'condition']
+
+  one_hot_features: ['cp', 'slope', 'thal', 'restecg']
+  correlated_features: ['age', 'exang', 'chol', 'fbs', 'thalach']
+  norm_features: ['age', 'trestbps', 'chol', 'thalach', 'oldpeak', 'ca']
+  target_column: condition
+
+
+model_params:
+  #Linreg params
+  penalty:  'l2'
+  solver: 'liblinear'
+  reg_param: 1.
+
+  # Trees & RandomForest params
+  max_depth: 8
+  min_samples_leaf:  1
+  max_features: sqrt
+
+  # model params
+  name:
+  model_type: "LogisticRegression"
+  random_state: 1234
+  train: true
+  test: true
+  evaluate_test: true
+  eval_from_path: false
+
+  ckpt_path: "saves/chekpoints"
+  preds_path: "saves/preds"
+  eval_path: "saves/eval_results"
