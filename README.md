@@ -49,4 +49,4 @@
 `prepro_params.pca=true model_params.pca_n_comp=<int>` - apply pca with number of components = pca_n_comp, default=10  
 
 **run tests:**  
-`python -m pytest --cov data/ --cov models/  tests/data_tests.py tests/model_tests.py`  
+`python -m pytest  tests/data_tests.py tests/model_tests.py`  
