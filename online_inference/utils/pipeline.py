@@ -3,7 +3,7 @@ import pickle
 from pathlib import Path
 from pydantic import BaseModel
 from typing import List
-from .params import read_inference_params, InferenceParams
+from .inference_params import read_inference_params, InferenceParams
 
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent
@@ -49,3 +49,16 @@ def inference_pipeline(cfg_path: str) -> List[Predictions]:
     test_data_preprocessed = preprocess(inference_params)
     predictions = predict(inference_params, test_data_preprocessed)
     return predictions
+
+from sklearn.model_selection import train_test_split
+
+with open('C:\\Users\\anke\\PycharmProjects\\ml_project\\online_inference\\test_data\\heart_cleveland_upload.csv', 'r') as f:
+    data = pd.read_csv(f)
+data.drop(columns='Unnamed: 0', inplace=True)
+y = data.condition
+x = data.drop(columns='condition')
+x_train, x_test, y_train, y_test = train_test_split(x, y)
+with open('x_train.csv') as f:
+    x_train.to_json(f)
+
+

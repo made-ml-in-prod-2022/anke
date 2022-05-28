@@ -1,4 +1,4 @@
-from .params import read_inference_params, InferenceParams
+from .inference_params import read_inference_params, InferenceParams
 from .pipeline import inference_pipeline, Predictions
 
 
