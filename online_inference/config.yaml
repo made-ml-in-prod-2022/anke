@@ -1,0 +1,12 @@
+
+data_params:
+  data_path: '/online_inference/test_data/test_data.json'
+  feature_names: [ "age", 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach',
+                   'exang', 'oldpeak', 'slope', 'ca', 'thal', 'condition']
+
+  one_hot_features: ['cp', 'slope', 'thal', 'restecg']
+  correlated_features: ['age', 'exang', 'chol', 'fbs', 'thalach']
+  norm_features: ['age', 'trestbps', 'chol', 'thalach', 'oldpeak', 'ca']
+
+model_params:
+  model_path: 'models/DecisionTreeClassifier.pickle'

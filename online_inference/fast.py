@@ -1,24 +1,24 @@
 from fastapi import FastAPI
-from typing import Union
-from pydantic import BaseModel
+from typing import Dict, List
+import uvicorn
+import os
+import requests
+import pandas as pd
+from fastapi import Request
+from utils import predict, MODEL_PATH, DATA_PATH, Predictions
 
 app = FastAPI()
 
-class Item(BaseModel):
-    name: str
-    price: float
-    is_offer: Union[bool, None]=None
 
-@app.get('/')
-def read_root():
-    return {'Hello': 'world'}
+@app.get('/predict/', response_model=List[Predictions], status_code=200)
+async def predict_desease():
+    # input_data = data.data
 
+    # input_df = pd.DataFrame([input_data])
+    # print(input_df.head())
 
-@app.get('/items/{item_id}')
-def read_item(item_id: int, q: str):
-    return {'item_id': item_id, 'q': q}
+    preds = predict(MODEL_PATH, DATA_PATH)
+    return preds
 
-
-@app.put('/items/{item_id}')
-def update_item(item_id: int, item: Item):
-    return {'item)id': item_id, 'item': item.price}
+if __name__ == "__main__":
+    uvicorn.run("fast:app", host="127.0.0.1", port=8000)
