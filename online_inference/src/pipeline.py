@@ -1,12 +1,14 @@
 import pandas as pd
 import pickle
-from pathlib import Path
 from pydantic import BaseModel
-from typing import List
+from typing import List, Union
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.utils.validation import check_is_fitted
 from .inference_params import read_inference_params, InferenceParams
 
-
-BASE_DIR = Path(__file__).resolve(strict=True).parent
+DISEASE_ESTIMATORS = [RandomForestClassifier, DecisionTreeClassifier, LogisticRegression]
 
 
 class Predictions(BaseModel):
@@ -14,12 +16,15 @@ class Predictions(BaseModel):
     prediction: int
 
 
+class ModelHealth(BaseModel):
+    is_okay: bool
+
+
 def preprocess(params: InferenceParams) -> pd.DataFrame:
     with open(params.data_path, 'r') as f:
         data = pd.read_json(f)
     # delete correlated
     columns = sorted(list(set(params.feature_names) - set(params.correlated_features)))
-    print(data.head())
     data = data[columns]
     # one-hot
     one_hot = sorted(list(set(params.one_hot_features) & set(columns)))
@@ -35,10 +40,21 @@ def preprocess(params: InferenceParams) -> pd.DataFrame:
     return data
 
 
-def predict(params: InferenceParams, test_data: pd.DataFrame) -> List[Predictions]:
-    # with open(Path(BASE_DIR).joinpath(f'{data_path}.json'), 'r') as f:
-    with open(params.model_path, 'rb') as f:
+def load_model(cfg_path: str):
+    inference_params = read_inference_params(cfg_path)
+    with open(inference_params.model_path, 'rb') as f:
         model = pickle.load(f)
+    return model
+
+
+def check_model(model):
+    check = any([isinstance(model, estimator) for estimator in DISEASE_ESTIMATORS])
+    if check:
+        check = check_is_fitted(model) is None
+    return ModelHealth(is_okay=check)
+
+
+def predict(model, test_data: pd.DataFrame) -> List[Predictions]:
     index = list(test_data.index)
     preds = model.predict(test_data)
     return [Predictions(index=ind, prediction=pred) for ind, pred in zip(index, preds)]
@@ -47,18 +63,9 @@ def predict(params: InferenceParams, test_data: pd.DataFrame) -> List[Prediction
 def inference_pipeline(cfg_path: str) -> List[Predictions]:
     inference_params = read_inference_params(cfg_path)
     test_data_preprocessed = preprocess(inference_params)
-    predictions = predict(inference_params, test_data_preprocessed)
+    model = load_model(cfg_path)
+    predictions = predict(model, test_data_preprocessed)
     return predictions
 
-from sklearn.model_selection import train_test_split
-
-with open('C:\\Users\\anke\\PycharmProjects\\ml_project\\online_inference\\test_data\\heart_cleveland_upload.csv', 'r') as f:
-    data = pd.read_csv(f)
-data.drop(columns='Unnamed: 0', inplace=True)
-y = data.condition
-x = data.drop(columns='condition')
-x_train, x_test, y_train, y_test = train_test_split(x, y)
-with open('x_train.csv') as f:
-    x_train.to_json(f)
 
 

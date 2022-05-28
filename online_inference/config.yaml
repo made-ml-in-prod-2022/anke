@@ -1,8 +1,8 @@
 
-data_path: 'test_data/test_data.json'
+data_path: 'test_data/x_train.json'
 model_path: 'models/DecisionTreeClassifier.pickle'
 feature_names: [ "age", 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach',
-                 'exang', 'oldpeak', 'slope', 'ca', 'thal', 'condition']
+                 'exang', 'oldpeak', 'slope', 'ca', 'thal']
 
 one_hot_features: ['cp', 'slope', 'thal', 'restecg']
 correlated_features: ['age', 'exang', 'chol', 'fbs', 'thalach']
