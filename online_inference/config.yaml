@@ -1,10 +1,13 @@
 
-#data_path: 'test_data/x_train.json'
-model_path: 'models/DecisionTreeClassifier.pickle'
+model_path: 'models/RandomForestClassifier.pickle'
 feature_names: [ "age", 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach',
                  'exang', 'oldpeak', 'slope', 'ca', 'thal']
 
 one_hot_features: ['cp', 'slope', 'thal', 'restecg']
 correlated_features: ['age', 'exang', 'chol', 'fbs', 'thalach']
 norm_features: ['age', 'trestbps', 'chol', 'thalach', 'oldpeak', 'ca']
+
+all_columns: ['ca', 'oldpeak', 'sex', 'trestbps', 'cp__0.0', 'cp__1.0', 'cp__2.0', 'cp__3.0',
+              'restecg__0.0', 'restecg__1.0', 'restecg__2.0', 'slope__0.0', 'slope__1.0','slope__2.0', 'thal__0.0',
+              'thal__1.0', 'thal__2.0']
 

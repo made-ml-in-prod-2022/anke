@@ -6,12 +6,12 @@ from marshmallow_dataclass import class_schema
 
 @dataclass()
 class InferenceParams:
-    # data_path: str
     model_path: str
     feature_names: List[str]
     correlated_features: List[str]
     one_hot_features: List[str]
     norm_features: List[str]
+    all_columns: List[str]
 
 
 InferenceParamsSchema = class_schema(InferenceParams)

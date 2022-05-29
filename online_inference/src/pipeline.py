@@ -39,8 +39,11 @@ def preprocess(data: List, params: InferenceParams) -> pd.DataFrame:
     to_norm = sorted(list(set(params.norm_features) & set(columns)))
     data[to_norm] = ((data[to_norm] - data[to_norm].mean(axis=0)) /
                      (data[to_norm].var(axis=0)) ** (1 / 2))
-    with open('check_prepro.csv', 'w') as f:
-        data.to_csv(f)
+    missing = list(set(params.all_columns) - set(data.columns))
+    for col in missing:
+        data[col] = pd.Series(0, index=data.index)
+    data = data[params.all_columns]
+
     return data
 
 
@@ -65,7 +68,6 @@ def predict(model, test_data: pd.DataFrame) -> List[Predictions]:
 
 
 def inference_pipeline(data: List, cfg_path: str) -> List[Predictions]:
-    print('pipeline started')
     inference_params = read_inference_params(cfg_path)
     test_data_preprocessed = preprocess(data, inference_params)
     model = load_model(cfg_path)
