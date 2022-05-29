@@ -1,5 +1,5 @@
 
-data_path: 'test_data/x_train.json'
+#data_path: 'test_data/x_train.json'
 model_path: 'models/DecisionTreeClassifier.pickle'
 feature_names: [ "age", 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach',
                  'exang', 'oldpeak', 'slope', 'ca', 'thal']

@@ -1,6 +1,6 @@
 import pandas as pd
 import pickle
-from pydantic import BaseModel
+from pydantic import BaseModel, conlist
 from typing import List, Union
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
@@ -16,14 +16,17 @@ class Predictions(BaseModel):
     prediction: int
 
 
+class TestData(BaseModel):
+    test_data: List[conlist(Union[float, str, None])]
+
+
 class ModelHealth(BaseModel):
     is_okay: bool
 
 
-def preprocess(params: InferenceParams) -> pd.DataFrame:
-    with open(params.data_path, 'r') as f:
-        data = pd.read_json(f)
+def preprocess(data: List, params: InferenceParams) -> pd.DataFrame:
     # delete correlated
+    data = pd.DataFrame(data=data, columns=params.feature_names)
     columns = sorted(list(set(params.feature_names) - set(params.correlated_features)))
     data = data[columns]
     # one-hot
@@ -36,7 +39,8 @@ def preprocess(params: InferenceParams) -> pd.DataFrame:
     to_norm = sorted(list(set(params.norm_features) & set(columns)))
     data[to_norm] = ((data[to_norm] - data[to_norm].mean(axis=0)) /
                      (data[to_norm].var(axis=0)) ** (1 / 2))
-
+    with open('check_prepro.csv', 'w') as f:
+        data.to_csv(f)
     return data
 
 
@@ -60,9 +64,10 @@ def predict(model, test_data: pd.DataFrame) -> List[Predictions]:
     return [Predictions(index=ind, prediction=pred) for ind, pred in zip(index, preds)]
 
 
-def inference_pipeline(cfg_path: str) -> List[Predictions]:
+def inference_pipeline(data: List, cfg_path: str) -> List[Predictions]:
+    print('pipeline started')
     inference_params = read_inference_params(cfg_path)
-    test_data_preprocessed = preprocess(inference_params)
+    test_data_preprocessed = preprocess(data, inference_params)
     model = load_model(cfg_path)
     predictions = predict(model, test_data_preprocessed)
     return predictions

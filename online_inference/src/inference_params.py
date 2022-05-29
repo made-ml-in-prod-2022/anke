@@ -6,7 +6,7 @@ from marshmallow_dataclass import class_schema
 
 @dataclass()
 class InferenceParams:
-    data_path: str
+    # data_path: str
     model_path: str
     feature_names: List[str]
     correlated_features: List[str]

@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from typing import List
 from pydantic import BaseModel
 import uvicorn
-from src import inference_pipeline, Predictions, ModelHealth, load_model, check_model
+from src import inference_pipeline, Predictions, ModelHealth, load_model, check_model, TestData
 
 CONFIG_PATH = 'C:\\Users\\anke\\PycharmProjects\\ml_project\\online_inference\\config.yaml'
 
@@ -15,8 +15,9 @@ def hello():
 
 
 @app.get('/predict/', response_model=List[Predictions], status_code=200)
-async def predict_disease():
-    preds = inference_pipeline(CONFIG_PATH)
+async def predict_disease(request: TestData):
+    print('predict_started')
+    preds = inference_pipeline(request.test_data, CONFIG_PATH)
     return preds
 
 
