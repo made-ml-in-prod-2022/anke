@@ -14,7 +14,7 @@ if __name__ == '__main__':
         test_data.append([*data.iloc[i]])
 
     response = requests.get(
-        'http://127.0.0.1:8000/predict/',
+        'http://0.0.0.0:8000/predict/',
         json={'test_data': test_data},
     )
 
