@@ -1,10 +1,12 @@
 from fastapi import FastAPI
 from typing import List
-
+import os
+from pathlib import Path
 import uvicorn
 from src import inference_pipeline, Predictions, ModelHealth, load_model, check_model, TestData
 
-CONFIG_PATH = 'config.yaml'
+ROOT_PATH = Path(__file__).parent
+CONFIG_PATH = os.path.join(ROOT_PATH, 'configs/config.yaml')
 
 app = FastAPI()
 
