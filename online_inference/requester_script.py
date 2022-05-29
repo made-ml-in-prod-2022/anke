@@ -11,7 +11,7 @@ if __name__ == '__main__':
 
     test_data = []
     for i in data.index:
-        test_data.append([x.item() if isinstance(x, np.generic) else x for x in data.iloc[i].tolist()])
+        test_data.append([*data.iloc[i]])
 
     response = requests.get(
         'http://127.0.0.1:8000/predict/',
@@ -27,4 +27,4 @@ if __name__ == '__main__':
         except json.decoder.JSONDecodeError:
             print('smth went wrong with data')
 
-    print(response.status_code)
+    print(f'response status code: {response.status_code}')
